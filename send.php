@@ -27,6 +27,19 @@ if(!empty($_POST['id']) || !empty($_GET['id'])){
 	$query="https://api.vk.com/method/users.get?".$getParams;
 	$result=json_decode(file_get_contents($query), true);     //массив данных
 	$city = $result['response'][0]['city'];
+
+	if ($result['response'][0]['can_see_audio']){
+		$canSeeAudio=true;
+	}
+	else {
+		$canSeeAudio=false;
+	}
+
+	foreach ($result['response'][0] as $singleResponse=>$key) {
+		if (!empty($key)){
+			$counterInfo++;
+		}
+	}
 	if (!empty($result['error'])) {
 		echo 'Пользователя с таким ID не существует';
 		exit;
@@ -52,6 +65,7 @@ if(!empty($_POST['id']) || !empty($_GET['id'])){
     $getParams = http_build_query($requestParams);
 	$queryPosts="https://api.vk.com/method/wall.get?".$getParams;
 	$resultPosts=json_decode(file_get_contents($queryPosts), true); //массив постов
+	$counterPosts= $resultPosts['response']['count']; //количество постов
 	
 	
 	/**************************************************************************************/
@@ -72,7 +86,7 @@ if(!empty($_POST['id']) || !empty($_GET['id'])){
 	$queryVideos="https://api.vk.com/method/video.get?".$getParams;
 	$resultVideos=json_decode(file_get_contents($queryVideos), true); //массив видосов
 	$counterVideos = $resultVideos['response']['count']; // количество видосов
-	Echo "Видосов:$counterVideos<br><br><br> ";
+	/*Echo "Видосов:$counterVideos<br><br><br> ";*/
 	
 	/**************************************************************************************/
 	/**************************************************************************************/
@@ -110,6 +124,7 @@ if(!empty($_POST['id']) || !empty($_GET['id'])){
     $getParams = http_build_query($requestParams);
 	$queryPhotos="https://api.vk.com/method/photos.get?".$getParams;
 	$resultPhotos=json_decode(file_get_contents($queryPhotos), true); //массив фоток
+	$counterPhotos = $resultPhotos['response']['count'];
 	
 	/**************************************************************************************/
 	/**************************************************************************************/
@@ -151,7 +166,7 @@ if(!empty($_POST['id']) || !empty($_GET['id'])){
 	/**************************************************************************************/
 	
 	
-	echo 'Личная информация:';
+	/*echo 'Личная информация:';
 	echo '<br>';
 	echo file_get_contents($query);
 	echo '<br>';
@@ -243,15 +258,113 @@ if(!empty($_POST['id']) || !empty($_GET['id'])){
 		}
 		$k=$i+1;
 		echo "<a href='".$href."'>".$k." фотография.</a><br>";
-	}
+	} */
 	
 	
-	echo '<br>';
+	/*echo '<br>';
 	echo 'Сообщества:';
 	echo '<br>';
 	for($i=0; $i<$resultGroups['response']['count']; $i++){
 		echo "<a href='https://vk.com/wall-".$resultGroups['response']['items'][$i]['id']."'>".$resultGroups['response']['items'][$i]['name']."</a><br>";
+	} */
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////NEEEEEEEEEIIIIIIIRRRRRRROOOOOOOOOOO//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+$wall = ($counterPosts>=10)?1:0;                    #Кол-во записей   ср.(10)
+$foto = ($counterPhotos>=15)?1:0;                     #Кол-во фото      ср.(15)
+$info = ($counterInfo>=10)?1:0;                       #Инфомация о себе ср.(10)
+$friends = ($counterFriends>=100)?1:0;                    #Кол-во друзей    ср.(100)
+$audio = $canSeeAudio?1:0;                      #Открыты или закрыты аудиозаписи
+$video = ($counterVideos>=15)?1:0;                    #Кол-во видео     ср.(15)
+
+function translate($x){
+    if ($x >= 0.5){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+     
+function calculateNeiron($array){
+	global $wall, $foto, $info, $friends, $audio, $video;
+	$stats = array("wall", "foto", "info", "friends", "audio", "video");
+	for ($i=0; $i<count($stats); $i++){
+		if ($$stats[$i]){
+			$out+=$array[$i];
+		}
 	}
+	return $out;
+}
+
+
+$weights_input_to_hiden_1 = [0.2, 0.2, 0.2, 0.2, 0.1, 0.1] ;                       # Степень открытости 1 - сангвиник или холерик, 0 - флегматик или меланхолик
+$weights_input_to_hiden_2 = [0.1, 0.1, 0.1, 0, 0.2, 0.3]  ;                       # Степень неустойчивости 1 - холерик или меланхолик, 0 - сангвиник или флегматик
+$weights_input_to_hiden_3 = [0.4,0.1,0.1,0.1,0,0];                                # Уровень самооценки 1 - выше среднего 0 - ниже среднего
+$weights_input_to_hiden_4 = [0.2,0.2,0.2, 0, 0, 0];                               # Уровень интеллекта 1 - малолетние дебилы, 0 - ге(й)ний
+
+
+
+$firstHidden = translate(calculateNeiron($weights_input_to_hiden_1));
+$secondHidden = translate(calculateNeiron($weights_input_to_hiden_2));
+$thirdHidden = translate(calculateNeiron($weights_input_to_hiden_3));
+$fourthHidden = translate(calculateNeiron($weights_input_to_hiden_4));
+
+switch($firstHidden){
+		case 0:
+			switch($secondHidden){
+				case 0:
+					$outStringTemper = "Флегматик";
+					break;
+
+				case 1:
+					$outStringTemper ="Меланхолик";
+					break;
+			}
+			break;
+
+		case 1:
+			switch($secondHidden){
+				case 0:
+					$outStringTemper = "Сангвиник";
+					break;
+
+				case 1:
+					$outStringTemper ="Холерик";
+					break;
+			}
+			break;
+}
+
+if($thirdHidden){
+	$outStringSelf = "Самооценка выше среднего";
+}
+else {
+	$outStringSelf = "Самооценка ниже среднего";
+}
+
+if($fourthHidden){
+	$outStringIntel = "Не особо умные(малолетние дебилы. ©Кирилл КПРФ)";
+}
+else {
+	$outStringIntel = "Умные(ге(й)ний. ©Кирик завоеватель царств)";
+}
+$stats = array("wall", "foto", "info", "friends", "audio", "video");
+foreach ($stats as $stat){
+	$siStat = $$stat;
+	echo "$stat -> $siStat <br>";
+}
+echo "$firstHidden |  $secondHidden | $thirdHidden | $fourthHidden ";
+echo "<br>";
+echo "$outStringTemper | $outStringSelf | $outStringIntel";
+
 }
 
 else {
