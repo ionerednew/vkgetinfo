@@ -162,7 +162,8 @@ if(!empty($_POST['id']) || !empty($_GET['id'])){
             );
     $getParams = http_build_query($requestParams);
 	$queryGroups="https://api.vk.com/method/groups.get?".$getParams;
-	$resultGroups=json_decode(file_get_contents($queryGroups), true); //массив cохраненных фоток
+	$resultGroups=json_decode(file_get_contents($queryGroups), true); 
+	$counterGroups = $resultGroups['response']['count'];
 	
 	/**************************************************************************************/
 	/**************************************************************************************/
@@ -278,26 +279,139 @@ if(!empty($_POST['id']) || !empty($_GET['id'])){
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////NEEEEEEEEEIIIIIIIRRRRRRROOOOOOOOOOO//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-$wall = ($counterPosts>=30)?1:0;                    #Кол-во записей   ср.(30)
-$foto = ($counterPhotos>=15)?1:0;                     #Кол-во фото      ср.(15)
-$info = ($counterInfo>=10)?1:0;                       #Инфомация о себе ср.(10)
-$friends = ($counterFriends>=100)?1:0;                    #Кол-во друзей    ср.(100)
-$audio = $canSeeAudio?1:0;                      #Открыты или закрыты аудиозаписи
-$video = ($counterVideos>=15)?1:0;                    #Кол-во видео     ср.(15)
+$wall_empty = 1;                 # Всегда равна единице
+$foto_empty = 1;
+$groups_empty = 1;
+$friends_empty = 1;
+$video_empty = 1;
 
-function translate($x){
-    if ($x >= 0.5){
-        return 1;
+								//1 При =>
+$wall_little = 0;                # Записей больше 3 (>3)
+$wall_medium = 0;                # Записей больше 6 (>6)
+$wall_excess = 0;				# Записей больше 50 (>50)
+
+$foto_little = 0;                 # Фото больше 3 (>3)
+$foto_medium = 0;                 # Фото больше 30 (>30)
+$foto_excess = 0;  				# Фото больше 100 (>100)
+
+$groups_little = 0;              # Групп больше 20 (>20)
+$groups_medium = 0;               # Групп больше 70 (>70)
+$groups_excess = 0;  			# Групп больше 120 (>120)
+
+$friends_little = 0;             # Друзей больше 50 (>50)
+$friends_medium = 0;              # Друзей больше 150 (>150)
+$friends_excess = 0;              # Друзей больше 200 (>200)
+
+$video_little = 0;                # Видео больше 3 (>3)
+$video_medium = 0;                # Видео больше 10 (>10)
+$video_excess = 0;                # Видео больше 50(>50)
+
+if ($counterPosts>3){
+	$wall_little = 1;
+		if ($counterPosts>6){
+			$wall_medium = 1;
+				if ($counterPosts>50){
+					$wall_excess = 1;
+				}
+		}
+}
+
+if ($counterPhotos>3){
+	$foto_little = 1;
+		if ($counterPhotos>30){
+			$foto_medium = 1;
+				if ($counterPhotos>100){
+					$foto_excess = 1;
+				}
+		}
+}
+
+if ($counterGroups>20){
+	$groups_little = 1;
+		if ($counterGroups>70){
+			$groups_medium = 1;
+				if ($counterGroups>120){
+					$groups_excess = 1;
+				}
+		}
+}
+
+if ($counterFriends>50){
+	$friends_little = 1;
+		if ($counterFriends>150){
+			$friends_medium = 1;
+				if ($counterFriends>200){
+					$friends_excess = 1;
+				}
+		}
+}
+
+if ($counterVideos>3){
+	$video_little = 1;
+		if ($counterVideos>10){
+			$video_medium = 1;
+				if ($counterVideos>50){
+					$video_excess = 1;
+				}
+		}
+}
+
+if ($canSeeAudio){
+	$audio = 1;
+	$audio_closed = 0;
+}
+else {
+	$audio = 0;
+	$audio_closed = 1;
+}
+
+
+
+function translateTemper($x){
+    if ($x >= 0.8 && $x <= 1.1){
+        return 0.3;        //Флегматик
     }
-    else{
-        return 0;
+    else if ($x >= 1.2 && $x <= 2){
+        return 0.6;        //Сангвиник
+    }
+    else if ($x >= 2.1){
+        return 1;	      //Холерик
+    }
+    else {
+    	return 0;		  //Меланхолик
+    }
+}
+
+function translateSelfRating($x){
+    if ($x >= 1.5 && $x <= 1.8){
+        return 0.5;        //Низкая самооценка
+    }
+    else if ($x >= 1.9){
+        return 1;        //Средняя самооценка
+    }
+    else {
+    	return 0;		  //Высокая самооценка
+    }
+}
+
+function translateIntelligence($x){
+    if ($x >= 1.2 && $x <= 3.6){
+        return 1;        // Высокий уровень интеллекта
+    }
+    else if ($x >= 3.7){
+        return 0;        //Низкий уровень интеллекта
+    }
+    else {
+    	return 0.5;		  //Средний уровень интеллекта
     }
 }
 
      
 function calculateNeiron($array){
-	global $wall, $foto, $info, $friends, $audio, $video;
-	$stats = array("wall", "foto", "info", "friends", "audio", "video");
+	global $wall_empty, $wall_little, $wall_medium, $wall_excess,   $foto_empty, $foto_little, $foto_medium, $foto_excess, $groups_empty, $groups_little, $groups_medium, $groups_excess, 
+		   $friends_empty, $friends_little, $friends_medium, $friends_excess,   $audio, $audio_closed,   $video_empty, $video_little, $video_medium, $video_excess;
+	$stats = array("wall_empty", "wall_little", "wall_medium", "wall_excess",   "foto_empty", "foto_little", "foto_medium", "foto_excess",   "groups_empty", "groups_little", "groups_medium", "groups_excess",
+                   "friends_empty", "friends_little", "friends_medium", "friends_excess",   "audio", "audio_closed",   "video_empty", "video_little", "video_medium", "video_excess");
 	for ($i=0; $i<count($stats); $i++){
 		if ($$stats[$i]){
 			$out+=$array[$i];
@@ -307,57 +421,67 @@ function calculateNeiron($array){
 }
 
 
-$weights_input_to_hiden_1 = [0.2, 0.2, 0.2, 0.2, 0.1, 0.1]  ;                       # Степень открытости 1 - сангвиник или холерик, 0 - флегматик или меланхолик
-$weights_input_to_hiden_2 = [0.1, 0.1, 0.1, 0, 0.2, 0.2]  ;                       # Степень неустойчивости 1 - холерик или меланхолик, 0 - сангвиник или флегматик
-$weights_input_to_hiden_3 = [0.2,0.2,0.1,0,0,0];                                # Уровень самооценки 1 - выше среднего 0 - ниже среднего
-$weights_input_to_hiden_4 = [0.2,0.2,0, 0, 0, 0.2];                               # Уровень интеллекта 1 - малолетние дебилы, 0 - ге(й)ний
+$weights_input_to_hiden_1 = [0.1, 0.1, 0.2, 0.4, 0.2, -0.1, 0.3, 0.4, 0.1, 0.1, 0.2, 0.4, 0.1, 0.1, 0.6, -0.4, 0.2, 0.1, 0.1, 0.1, 0.2, 0.4];
+$weights_input_to_hiden_2 = [0.1, 0, 0.3, 0.4, 0.2, -0.1, 0.7, 0, 0.1, 0.1, 0.2, 0, 0.2, 0, 0.6, -0.4, 0.2, 0.1, 0.1, 0.1, 0, 0.2];
+$weights_input_to_hiden_3 = [0.1, 0.1, 0, 0.6, 0.2, -0.1, 0.7, 0, 0.1, 0.7, 0, 0, 0.1, 0, 0.1, 0.6, 0.2, 0.1, 0.1, 0, 0.3, 0.4];
 
 
 
-$firstHidden = translate(calculateNeiron($weights_input_to_hiden_1));
-$secondHidden = translate(calculateNeiron($weights_input_to_hiden_2));
-$thirdHidden = translate(calculateNeiron($weights_input_to_hiden_3));
-$fourthHidden = translate(calculateNeiron($weights_input_to_hiden_4));
 
-switch($firstHidden){
-		case 0:
-			switch($secondHidden){
-				case 0:
-					$outStringTemper = "Флегматик";
-					break;
+$Temper = translateTemper(calculateNeiron($weights_input_to_hiden_1));
+$SelfRating = translateSelfRating(calculateNeiron($weights_input_to_hiden_2));
+$Intelligence = translateIntelligence(calculateNeiron($weights_input_to_hiden_3));
 
-				case 1:
-					$outStringTemper ="Меланхолик";
-					break;
-			}
-			break;
 
-		case 1:
-			switch($secondHidden){
-				case 0:
-					$outStringTemper = "Сангвиник";
-					break;
+switch ($Temper){
+	case 0.3:
+		$outStringTemper = "Флегматик";
+		break;
 
-				case 1:
-					$outStringTemper ="Холерик";
-					break;
-			}
-			break;
+	case 0.6:
+		$outStringTemper = "Сангвиник";
+		break;
+
+	case 1:
+		$outStringTemper = "Холерик";
+		break;
+
+	case 0:
+		$outStringTemper = "Меланхолик";
+		break;
 }
 
-if($thirdHidden){
-	$outStringSelf = "Самооценка выше среднего";
-}
-else {
-	$outStringSelf = "Самооценка ниже среднего";
+switch ($SelfRating){
+	case 0.5:
+		$outStringSelf = "Низкая самооценка";
+		break;
+
+	case 1:
+		$outStringSelf = "Средняя самооценка";
+		break;
+
+	case 0:
+		$outStringSelf = "Высокая самооценка";
+		break;
 }
 
-if($fourthHidden){
-	$outStringIntel = "Интеллект ниже среднего";
+switch ($Intelligence){
+	case 0.5:
+		$outStringIntel = "Средний уровень интеллекта";
+		break;
+
+	case 1:
+		$outStringIntel = "Высокий уровень интеллекта";
+		break;
+
+	case 0:
+		$outStringIntel = "Низкий уровень интеллекта";
+		break;
 }
-else {
-	$outStringIntel = "Интеллект выше среднего";
-}
+
+
+
+
 $stats = array("wall", "foto", "info", "friends", "audio", "video");
 foreach ($stats as $stat){
 	$siStat = $$stat;
