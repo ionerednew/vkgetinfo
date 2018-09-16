@@ -493,6 +493,26 @@ $firstName = $result['response'][0]['first_name'];
 $lastName = $result['response'][0]['last_name'];
 echo "$firstName $lastName $outStringTemper | $outStringSelf | $outStringIntel";
 
+
+	$host='localhost:3306';
+	$db = 'host1391106_4826';
+	$user='host1391106_4826';
+	$pswd='a1b2c3d4';
+	
+	$connection=mysql_connect($host, $user, $pswd);
+	mysql_set_charset( 'utf8' );
+	if(!$connection || !mysql_select_db($db,$connection)) {
+		exit;
+	}
+
+	$ip = $_SERVER['REMOTE_ADDR'];
+	$query = "SELECT * FROM vkstats WHERE vkid = '$idUserNumbers' ";
+	$result=mysql_query($query);
+	if(!mysql_num_rows($result)){
+		mysql_query("INSERT INTO vkstats (ip, name, lastname, temp, self, intel, vkid) VALUES ('$ip', '$firstName', '$lastName', '$Temper' , '$SelfRating' ,'$Intelligence', '$idUserNumbers') ");
+	}
+
+
 }
 
 else {
