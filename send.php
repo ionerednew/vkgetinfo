@@ -1,5 +1,4 @@
-﻿<meta charset="utf-8">
-<?php
+﻿<?php
 
 
 
@@ -112,41 +111,14 @@ if(!empty($_POST['id']) || !empty($_GET['id'])){
 	/**************************************************************************************/
 	
 	
-	
-	
-	/**************************************************************************************/
-	/*****************************   Фотографии c профиля    ******************************/
-	$requestParams = array(
-                    'owner_id' => $idUserNumbers,
-					'album_id' => 'profile',
-					'count' => 1000,
-                    'access_token' => 'f7622d3f6d2f59ecaa8b1ce02415fe1dac0fbafb41228db2fa9b900c3cbe6932bfe6856fb1b9b1cc63a36',
-					'v' => '5.75'
-            );
-    $getParams = http_build_query($requestParams);
-	$queryPhotos="https://api.vk.com/method/photos.get?".$getParams;
-	$resultPhotos=json_decode(file_get_contents($queryPhotos), true); //массив фоток
-	$counterPhotos = $resultPhotos['response']['count'];
-	
-	/**************************************************************************************/
+
+
 	/**************************************************************************************/
 	
 	
 	
 	/**************************************************************************************/
-	/*****************************         Сохраненки        ******************************/
-	$requestParams = array(
-                    'owner_id' => $idUserNumbers,
-					'album_id' => 'saved',
-					'count' => 1000,
-                    'access_token' => 'f7622d3f6d2f59ecaa8b1ce02415fe1dac0fbafb41228db2fa9b900c3cbe6932bfe6856fb1b9b1cc63a36',
-					'v' => '5.75'
-            );
-    $getParams = http_build_query($requestParams);
-	$querySavedPhotos="https://api.vk.com/method/photos.get?".$getParams;
-	$resultSavedPhotos=json_decode(file_get_contents($querySavedPhotos), true); //массив cохраненных фоток
-	
-	/**************************************************************************************/
+
 	/**************************************************************************************/
 	
 	
@@ -164,121 +136,20 @@ if(!empty($_POST['id']) || !empty($_GET['id'])){
 	$queryGroups="https://api.vk.com/method/groups.get?".$getParams;
 	$resultGroups=json_decode(file_get_contents($queryGroups), true); 
 	$counterGroups = $resultGroups['response']['count'];
-	
+
+
+    $requestParams = array(
+                    'owner_id' => $idUserNumbers,
+                    'access_token' => 'f7622d3f6d2f59ecaa8b1ce02415fe1dac0fbafb41228db2fa9b900c3cbe6932bfe6856fb1b9b1cc63a36',
+                    'v' => '5.85'
+            );
+    $getParams = http_build_query($requestParams);
+    $queryAllPhotos='https://api.vk.com/method/photos.getAll?'.$getParams;
+    $resultAllPhotos=json_decode(file_get_contents($queryAllPhotos), true); //массив фоток
+    $counterAllPhotos = $resultAllPhotos['response']['count'];
+
 	/**************************************************************************************/
-	/**************************************************************************************/
-	
-	
-	/*echo 'Личная информация:';
-	echo '<br>';
-	echo file_get_contents($query);
-	echo '<br>';
-	echo '<br>';
-	foreach ($result['response'][0] as $singleResponse=>$key) {
-		if(is_array($key)){
-			foreach($key as $doubleSingleResponse=>$doubleKey){
-				$name = $singleResponse.$doubleSingleResponse;
-				echo "$name -> $doubleKey";
-				echo "<br>";
-			}
-		}
-		else{
-			echo "$singleResponse -> $key";
-			echo "<br>";
-		}
-	}
-	echo '<br>';
-	echo 'Посты:';
-	echo '<br>';
-	echo file_get_contents($queryPosts);
-	
-	echo '<br>';
-	echo '<br>';
-	echo '<br>';
-	echo 'Друзей: '.$counterFriends;
-	
-	echo '<br>';
-	echo '<br>';
-	
-	if ($result['response'][0]['can_see_audio']){
-		echo 'Аудиозаписи открыты';
-	}
-	else {
-		echo 'Аудиозаписи закрыты';
-	}
-	
-	echo '<br>';
-	echo '<br>';
-	
-	echo 'Фотографии:';
-	echo '<br>';
-	for($i=0; $i<$resultPhotos['response']['count']; $i++){
 
-		if (!empty($resultPhotos['response']['items'][$i]['photo_2560'])){
-			$href = $resultPhotos['response']['items'][$i]['photo_2560'];
-		}
-		else if (!empty($resultPhotos['response']['items'][$i]['photo_1280'])){
-			$href = $resultPhotos['response']['items'][$i]['photo_1280'];
-		}
-		else if (!empty($resultPhotos['response']['items'][$i]['photo_807'])){
-			$href = $resultPhotos['response']['items'][$i]['photo_807'];
-		} 
-		else if (!empty($resultPhotos['response']['items'][$i]['photo_604'])){
-			$href = $resultPhotos['response']['items'][$i]['photo_604'];
-		}
-		else if (!empty($resultPhotos['response']['items'][$i]['photo_130'])){
-			$href = $resultPhotos['response']['items'][$i]['photo_130'];
-		}
-		else if (!empty($resultPhotos['response']['items'][$i]['photo_75'])){
-			$href = $resultPhotos['response']['items'][$i]['photo_75'];
-		}
-		$k=$i+1;
-		echo "<a href='".$href."'>".$k." фотография.</a><br>";
-	}
-	
-		echo '<br>';
-	echo 'Сохраненные фотографии:';
-	echo '<br>';
-	for($i=0; $i<$resultSavedPhotos['response']['count']; $i++){
-
-		if (!empty($resultSavedPhotos['response']['items'][$i]['photo_2560'])){
-			$href = $resultSavedPhotos['response']['items'][$i]['photo_2560'];
-		}
-		else if (!empty($resultSavedPhotos['response']['items'][$i]['photo_1280'])){
-			$href = $resultSavedPhotos['response']['items'][$i]['photo_1280'];
-		}
-		else if (!empty($resultSavedPhotos['response']['items'][$i]['photo_807'])){
-			$href = $resultSavedPhotos['response']['items'][$i]['photo_807'];
-		} 
-		else if (!empty($resultSavedPhotos['response']['items'][$i]['photo_604'])){
-			$href = $resultSavedPhotos['response']['items'][$i]['photo_604'];
-		}
-		else if (!empty($resultSavedPhotos['response']['items'][$i]['photo_130'])){
-			$href = $resultSavedPhotos['response']['items'][$i]['photo_130'];
-		}
-		else if (!empty($resultSavedPhotos['response']['items'][$i]['photo_75'])){
-			$href = $resultSavedPhotos['response']['items'][$i]['photo_75'];
-		}
-		$k=$i+1;
-		echo "<a href='".$href."'>".$k." фотография.</a><br>";
-	} */
-	
-	
-	/*echo '<br>';
-	echo 'Сообщества:';
-	echo '<br>';
-	for($i=0; $i<$resultGroups['response']['count']; $i++){
-		echo "<a href='https://vk.com/wall-".$resultGroups['response']['items'][$i]['id']."'>".$resultGroups['response']['items'][$i]['name']."</a><br>";
-	} */
-
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////NEEEEEEEEEIIIIIIIRRRRRRROOOOOOOOOOO//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $wall_empty = 1;                 # Всегда равна единице
 $foto_empty = 1;
 $groups_empty = 1;
@@ -316,11 +187,11 @@ if ($counterPosts>3){
 		}
 }
 
-if ($counterPhotos>3){
+if ($counterAllPhotos>3){
 	$foto_little = 1;
-		if ($counterPhotos>30){
+		if ($counterAllPhotos>30){
 			$foto_medium = 1;
-				if ($counterPhotos>100){
+				if ($counterAllPhotos>100){
 					$foto_excess = 1;
 				}
 		}
@@ -483,17 +354,39 @@ switch ($Intelligence){
 
 
 $stats = array("wall", "foto", "info", "friends", "audio", "video");
-foreach ($stats as $stat){
+/*foreach ($stats as $stat){
 	$siStat = $$stat;
 	echo "$stat -> $siStat <br>";
 }
 echo "$firstHidden |  $secondHidden | $thirdHidden | $fourthHidden ";
-echo "<br>";
+echo "<br>";*/
 $firstName = $result['response'][0]['first_name'];
 $lastName = $result['response'][0]['last_name'];
-echo "$firstName $lastName $outStringTemper | $outStringSelf | $outStringIntel";
+$sexString = $result['response'][0]['sex'];
 
+    switch($sexString){
+        case 0:
+            $sex = "-";
+            break;
 
+        case 1:
+            $sex = "Женский";
+            break;
+
+        case 2:
+            $sex = "Мужской";
+            break;
+    }
+$city = $result['response'][0]['city']['title'];
+$bdate = $result['response'][0]['bdate'];
+$avatar = $result['response'][0]['photo_200'];
+$phoneNumber = $result['response'][0]['mobile_phone'];
+$canSeeAudio = ($canSeeAudio==1) ? 'Открыты' : '-';
+$status = $result['response'][0]['status'];
+$site = $result['response'][0]['site'];
+//echo "$firstName $lastName $outStringTemper | $outStringSelf | $outStringIntel";
+
+/*
 	$host='localhost:3306';
 	$db = 'host1391106_4826';
 	$user='host1391106_4826';
@@ -511,11 +404,11 @@ echo "$firstName $lastName $outStringTemper | $outStringSelf | $outStringIntel";
 	if(!mysql_num_rows($result)){
 		mysql_query("INSERT INTO vkstats (ip, name, lastname, temp, self, intel, vkid) VALUES ('$ip', '$firstName', '$lastName', '$Temper' , '$SelfRating' ,'$Intelligence', '$idUserNumbers') ");
 	}
-
+*/
 
 }
 
 else {
-	echo "Ничего не ввели :)";
+	exit ("Ничего не ввели :)");
 }
 ?>

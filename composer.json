@@ -1,0 +1,12 @@
+{
+    "name": "anko/12",
+    "authors": [
+        {
+            "name": "anko",
+            "email": "ya.tolik-a@yandex.ru"
+        }
+    ],
+    "require": {
+        "league/color-extractor": "0.3.*"
+    }
+}

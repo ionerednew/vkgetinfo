@@ -1,0 +1,334 @@
+@import "vars"
+@import "fonts"
+@import "libs"
+@import "colors"
+
+::placeholder
+	color: #666
+
+::selection
+	background-color: $accent
+	color: #fff
+
+html, body
+	height: 100%
+
+
+html.js
+	.loader 
+		background: none repeat scroll 0 0 #ffffff
+		bottom: 0
+		height: 100%
+		left: 0
+		position: fixed
+		right: 0
+		top: 0
+		width: 100%
+		z-index: 1999
+	.loader_inner 
+		background-image: url("../img/preloader.gif")
+		background-size: cover
+		background-repeat: no-repeat
+		background-position: center center
+		background-color: #fff
+		height: 160px
+		width: 160px
+		margin-top: -100px
+		margin-left: -60px
+		left: 50%
+		top: 50%
+		position: absolute
+
+
+body
+	background: $bg
+	font-size: 16px
+	min-width: 320px
+	position: relative
+	line-height: 1.65
+	font-family: $default-font
+	overflow: hidden
+	input, textarea
+		border: #666 1px solid
+		outline: none
+		&:focus:required:invalid
+			border-color: red
+		&:required:valid
+			border-color: green
+	&::before
+		content: ""
+		position: absolute
+		z-index: 2
+		top: -250px
+		left: -250px
+		width: 500px
+		height: 500px
+		border-radius: 50%
+		background-color: #000000
+		opacity: .15
+	&::after
+		content: ""
+		position: absolute
+		z-index: 2
+		bottom: -250px
+		right: -250px
+		width: 1000px
+		height: 1000px
+		border-radius: 50%
+		background-color: #000000
+		opacity: .15
+
+.img-responsive
+	display: block
+	max-width: 100%
+	height: auto
+
+.text-center
+	text-align: center
+
+.container-fluid
+	max-width: 1545px
+
+.full-screen
+	height: 100vh
+
+.main-block
+	background-color: $white
+	min-height: calc(100vh - 200px)
+	border-radius: 20px
+	margin-top: 100px
+	margin-bottom: 100px
+	padding: 50px
+	z-index: 5
+	position: relative
+	.center
+		display: block
+		margin: 0 auto
+	img
+		width: 350px
+	h1
+		color: $dark
+		font-weight: 900
+		text-transform: uppercase
+	p
+		color: $grayer
+	&::after
+		content: ""
+		position: absolute
+		top: 660px
+		left: -60px
+		width: 115px
+		height: 71px
+		background-color: #F69A73
+		background-image: url(../img/svg/left_bottom_ving.svg)
+	&::before
+		content: ""
+		position: absolute
+		top: 50px
+		left: 1062px
+		width: 85px
+		height: 71px
+		background-color: #F69A73
+		background-image: url(../img/svg/right_top_ving.svg)
+		transform: rotate(180deg)
+		z-index: 10
+
+button.confirm_button
+	border-radius: 50px
+	border: 0
+	padding: 10px 20px
+	background-color: $bg
+	border-bottom: 5px solid $dark-bg
+	transition: all .2s
+	color: $white
+	font-weight: 900
+	text-transform: uppercase
+	outline: none
+	&:hover
+		background-color: $gray
+		border-bottom: 5px solid $grayer
+	&:active
+		background-color: $bg
+		border-bottom: 5px solid $dark-bg
+
+button.deny_button
+	border-radius: 50px
+	border: 0
+	padding: 10px 20px
+	background-color: transparent
+	transition: all .2s
+	color: $grayer
+	font-weight: 900
+	text-transform: uppercase
+	outline: none
+	&:hover
+		color: $white
+		background-color: $gray
+		border-bottom: 5px solid $grayer
+	&:active
+		background-color: $bg
+		border-bottom: 5px solid $dark-bg
+
+.nav-block-rounds
+	width: 100%
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	margin-bottom: 100px
+	.round
+		width: 50px
+		height: 50px
+		border-radius: 50px
+		margin-left: 50px
+		background-color: $gray
+		border-bottom: 5px solid $grayer
+		color: $white
+		text-align: center
+		position: relative
+		line-height: 30px
+		font-size: 30px
+		border-radius: 50%
+		ion-icon
+		i
+				margin-top: 8px
+				color: #fff
+		&:after
+			position: absolute
+			content: "...."
+			color: $grayer
+			left: 55px
+			width: 40px
+			height: 40px
+		&:last-child
+			&:after
+				display: none
+		&:first-child
+			margin-left: 0px
+		a
+			color: $white
+			&:hover
+				opacity: 0.6
+		span
+			position: absolute
+			top: 50px
+			left: 3px
+			color: $gray
+			font-size: 16px
+			font-weight: 900
+			text-transform: uppercase
+	.active
+		background-color: $bg
+		border-bottom: 5px solid $dark-bg
+		span
+			color: $bg
+
+
+.s2_input
+	width: 90% !important
+	background: $gray !important
+	border: 0 !important
+	border-radius: 50px !important
+	border-bottom: 5px rgba(237, 237, 237, 0.38) solid !important
+	transition: 0.4s
+	color: $white !important
+	padding: 8px
+	padding-left: 20px
+	font-size: 16px !important
+	&::-webkit-input-placeholder
+		color: $gray-dark !important
+	&#password
+		color: $dark-bg !important
+		transition: 0.2s
+	&#captcha
+		width: 60% !important
+	&#code
+		width: 100px !important
+	&:focus
+		border-bottom: 5px $dark-bg solid !important
+		transition: 0.2s
+		width: 100% !important
+		outline: none
+		color: $white
+		box-shadow: none
+		background: $bg !important
+	&#captcha:focus
+		width: 65% !important
+		outline: none
+		box-shadow: none
+
+
+
+
+.profile
+	background: #fff
+	h3
+		text-align: center
+	&__span
+		color: #bbb
+		font-size: 11px
+	&__status
+		color: #333
+		font-size: 13px
+	&__site
+		font-size: 13px
+	&__avatar
+		width: 100%
+		padding: 15px
+		img
+			width: 100%
+			border: 5px solid #e6e6e6
+			border-radius: 50%
+
+.colors
+	.color
+		height: 30px
+		width: 75px
+		display: inline-block
+		border: 3px solid #e6e6e6
+		margin-right: 5px
+		background: #000
+
+.table_detail
+	color: #fff
+	table
+		border-radius: 20px
+		overflow: hidden
+		border-collapse: collapse
+		width: 100%
+
+td, th
+	border-collapse: collapse
+	width: 100%
+
+.table_detail
+	th
+		width: 30%
+		padding: 10px
+	tr
+		background: #D1D2D6
+		&:nth-child(2n)
+			background: #c4c5c7
+	td
+		padding: 10px
+		width: 30%
+		text-align: center
+	.t_head
+		background-color: #FF9571
+		font-size: 25px
+	#time
+		width: 20%
+	#discr
+		width: 70%
+		text-align: left
+	a img
+		transition: transform 0.3s linear
+		&:hover
+			-webkit-filter: drop-shadow(0px 0px 2px rgb(163, 204, 64))
+			filter: drop-shadow(0px 0px 2px rgb(163, 204, 64))
+
+p.table_descr
+	text-align: center
+	font-size: 11px
+	padding: 40px 100px
+
+@import "media"
