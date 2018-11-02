@@ -488,10 +488,10 @@ $site = $result['response'][0]['site'];
 //echo "$firstName $lastName $outStringTemper | $outStringSelf | $outStringIntel";
 
 /*
-	$host='localhost:3306';
-	$db = 'host1391106_4826';
-	$user='host1391106_4826';
-	$pswd='a1b2c3d4';
+	$host='';
+	$db = '';
+	$user='';
+	$pswd='';
 >>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
 	
 	$connection=mysql_connect($host, $user, $pswd);
