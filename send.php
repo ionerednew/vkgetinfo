@@ -80,6 +80,7 @@ class parsing{
 		$requestParams = array(
                     'user_id' => $this->idUserNumbers,
 					'count' => 500,
+<<<<<<< HEAD
                     'access_token' => $this->accessToken,
 					'v' => '5.75'
             );
@@ -89,6 +90,28 @@ class parsing{
 		$this->counterFriends = $resultFriends['response']['count'];            //количество друзей
 	}
 	/**************************************************************************************/
+=======
+                    'access_token' => 'f7622d3f6d2f59ecaa8b1ce02415fe1dac0fbafb41228db2fa9b900c3cbe6932bfe6856fb1b9b1cc63a36',
+					'v' => '5.75'
+            );
+    $getParams = http_build_query($requestParams);
+	$queryFriends="https://api.vk.com/method/friends.get?".$getParams;
+	$resultFriends=json_decode(file_get_contents($queryFriends), true); //массив друзей
+	$counterFriends = $resultFriends['response']['count'];            //количество друзей
+	
+	/**************************************************************************************/
+	/**************************************************************************************/
+	
+	
+
+
+	/**************************************************************************************/
+	
+	
+	
+	/**************************************************************************************/
+
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
 	/**************************************************************************************/
 	
 
@@ -104,6 +127,7 @@ class parsing{
                     'access_token' => $this->accessToken,
 					'v' => '5.75'
             );
+<<<<<<< HEAD
     	$getParams = http_build_query($requestParams);
 		$queryGroups="https://api.vk.com/method/groups.get?".$getParams;
 		$resultGroups=json_decode(file_get_contents($queryGroups), true); 
@@ -122,9 +146,16 @@ class parsing{
     	$this->counterAllPhotos = $resultAllPhotos['response']['count'];
     }
 }
+=======
+    $getParams = http_build_query($requestParams);
+	$queryGroups="https://api.vk.com/method/groups.get?".$getParams;
+	$resultGroups=json_decode(file_get_contents($queryGroups), true); 
+	$counterGroups = $resultGroups['response']['count'];
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
 
 	/**************************************************************************************/
 
+<<<<<<< HEAD
 class neuro extends parsing{
 
 	
@@ -145,6 +176,25 @@ class neuro extends parsing{
 		$groups_empty = 1;
 		$friends_empty = 1;
 		$video_empty = 1;
+=======
+    $requestParams = array(
+                    'owner_id' => $idUserNumbers,
+                    'access_token' => 'f7622d3f6d2f59ecaa8b1ce02415fe1dac0fbafb41228db2fa9b900c3cbe6932bfe6856fb1b9b1cc63a36',
+                    'v' => '5.85'
+            );
+    $getParams = http_build_query($requestParams);
+    $queryAllPhotos='https://api.vk.com/method/photos.getAll?'.$getParams;
+    $resultAllPhotos=json_decode(file_get_contents($queryAllPhotos), true); //массив фоток
+    $counterAllPhotos = $resultAllPhotos['response']['count'];
+
+	/**************************************************************************************/
+
+$wall_empty = 1;                 # Всегда равна единице
+$foto_empty = 1;
+$groups_empty = 1;
+$friends_empty = 1;
+$video_empty = 1;
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
 
 								//1 При =>
 		$wall_little = 0;                # Записей больше 3 (>3)
@@ -178,6 +228,7 @@ class neuro extends parsing{
 				}
 		}
 
+<<<<<<< HEAD
 		if ($this->counterAllPhotos>3){
 			$foto_little = 1;
 				if ($this->counterAllPhotos>30){
@@ -185,6 +236,14 @@ class neuro extends parsing{
 						if ($this->counterAllPhotos>100){
 							$foto_excess = 1;
 						}
+=======
+if ($counterAllPhotos>3){
+	$foto_little = 1;
+		if ($counterAllPhotos>30){
+			$foto_medium = 1;
+				if ($counterAllPhotos>100){
+					$foto_excess = 1;
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
 				}
 		}
 
@@ -351,6 +410,7 @@ class neuro extends parsing{
 				$this->sex = "-";
 			    break;
 
+<<<<<<< HEAD
 			    case 1:
 			      	$this->sex = "Женский";
 			        break;
@@ -393,6 +453,46 @@ if(!empty($_POST['id']) || !empty($_GET['id'])){
 	$db = '';
 	$user='';
 	$pswd='';
+=======
+$stats = array("wall", "foto", "info", "friends", "audio", "video");
+/*foreach ($stats as $stat){
+	$siStat = $$stat;
+	echo "$stat -> $siStat <br>";
+}
+echo "$firstHidden |  $secondHidden | $thirdHidden | $fourthHidden ";
+echo "<br>";*/
+$firstName = $result['response'][0]['first_name'];
+$lastName = $result['response'][0]['last_name'];
+$sexString = $result['response'][0]['sex'];
+
+    switch($sexString){
+        case 0:
+            $sex = "-";
+            break;
+
+        case 1:
+            $sex = "Женский";
+            break;
+
+        case 2:
+            $sex = "Мужской";
+            break;
+    }
+$city = $result['response'][0]['city']['title'];
+$bdate = $result['response'][0]['bdate'];
+$avatar = $result['response'][0]['photo_200'];
+$phoneNumber = $result['response'][0]['mobile_phone'];
+$canSeeAudio = ($canSeeAudio==1) ? 'Открыты' : '-';
+$status = $result['response'][0]['status'];
+$site = $result['response'][0]['site'];
+//echo "$firstName $lastName $outStringTemper | $outStringSelf | $outStringIntel";
+
+/*
+	$host='localhost:3306';
+	$db = 'host1391106_4826';
+	$user='host1391106_4826';
+	$pswd='a1b2c3d4';
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
 	
 	$connection=mysql_connect($host, $user, $pswd);
 	mysql_set_charset( 'utf8' );
@@ -406,10 +506,14 @@ if(!empty($_POST['id']) || !empty($_GET['id'])){
 	if(!mysql_num_rows($result)){
 		mysql_query("INSERT INTO vkstats (ip, name, lastname, temp, self, intel, vkid) VALUES ('$ip', '$firstName', '$lastName', '$Temper' , '$SelfRating' ,'$Intelligence', '$idUserNumbers') ");
 	}
+<<<<<<< HEAD
 	else {
 		mysql_query("UPDATE vkstats SET  temp = '$Temper', self = '$SelfRating', intel = '$Intelligence'  WHERE vkid = '$idUserNumbers' ");
 	}*/
 
+=======
+*/
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
 
 }
 

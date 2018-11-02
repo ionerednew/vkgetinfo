@@ -3082,6 +3082,7 @@ button.deny_button:active {
   opacity: 0.6;
 }
 .nav-block-rounds .round span {
+<<<<<<< HEAD
     position: absolute;
     top: 50px;
     left: -48px;
@@ -3092,6 +3093,15 @@ button.deny_button:active {
     font-weight: 900;
     text-align: center;
     text-transform: uppercase;
+=======
+  position: absolute;
+  top: 50px;
+  left: 3px;
+  color: #D1D3D6;
+  font-size: 16px;
+  font-weight: 900;
+  text-transform: uppercase;
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
 }
 .nav-block-rounds .active {
   background-color: #F69A73;

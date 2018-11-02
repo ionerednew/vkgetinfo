@@ -18,7 +18,11 @@ function checkResultIcon($value) {
 use League\ColorExtractor\Color;
 use League\ColorExtractor\ColorExtractor;
 use League\ColorExtractor\Palette;
+<<<<<<< HEAD
 $image = $vk->avatar;
+=======
+$image = $avatar;
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
 $palette = Palette::fromFilename($image);
 
 // an extractor is built from a palette
@@ -41,9 +45,15 @@ foreach ($colorsName as $key => $value) {
         $analizeColortext = $value[2];
     }
 }
+<<<<<<< HEAD
 
 ?>
 
+=======
+?>
+
+
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
 <!DOCTYPE html>
 <!--
 (C)2018 Antonenko A.
@@ -92,9 +102,15 @@ foreach ($colorsName as $key => $value) {
 					<div class="row">
 						<div class="col-md-12">
 							<div class="nav-block-rounds">
+<<<<<<< HEAD
 								<div class="round"><a href="/"><i class="ion ion-md-home"></i><span>Главная</span></a></div>
 								<div class="round "><a href="/"><i class="ion ion-md-log-in"></i><span>Вход</span></a></div>
 								<div class="round active"><a href=""><i class="ion ion-md-checkmark-circle-outline"></i><span>Результаты</span></a></div>
+=======
+								<div class="round"><a href="/3"><i class="ion ion-md-home"></i><span>Home</span></a></div>
+								<div class="round "><a href=""><i class="ion ion-md-log-in"></i><span>Login</span></a></div>
+								<div class="round active"><a href=""><i class="ion ion-md-checkmark-circle-outline"></i><span>Results</span></a></div>
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
 							</div>
 						</div>
 
@@ -115,6 +131,7 @@ foreach ($colorsName as $key => $value) {
 						          ?>
 						        </div>
 
+<<<<<<< HEAD
 										<h3><a href="//vk.com/id<?=$vk->idUserNumbers?>"><?=$vk->firstName.' '.$vk->lastName?></a></h3>
                                         <?php if($vk->status) { ?>
                                         <span class="profile__span"><i class="ion ion-md-information-circle"></i>some info</span>
@@ -125,6 +142,18 @@ foreach ($colorsName as $key => $value) {
                                         <span class="profile__span"><i class="ion ion-md-information-circle"></i>
                                         Веб-сайт:</span><br>
                                         <a href="<?=$vk->site?>" class="profile__site"><?=$vk->site?></a>
+=======
+										<h3><a href="//vk.com/id<?=$idUserNumbers?>"><?=$firstName.' '.$lastName?></a></h3>
+                                        <?php if($status) { ?>
+                                        <span class="profile__span"><i class="ion ion-md-information-circle"></i>some info</span>
+                                        <p class="profile__status"><?=$status?> </p>
+                                        <?php } ?>
+
+                                        <?php if($site) { ?>
+                                        <span class="profile__span"><i class="ion ion-md-information-circle"></i>
+                                        Веб-сайт:</span><br>
+                                        <a href="<?=$site?>" class="profile__site"><?=$site?></a>
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
                                         <?php } ?>
 										
 										
@@ -139,6 +168,7 @@ foreach ($colorsName as $key => $value) {
 						                        </tr>
 						                        <tr> 
 						                            <td id="time">Имя Фамилия</td>
+<<<<<<< HEAD
 						                            <td id="discr" class="centrtable"><?=$vk->firstName.' '.$vk->lastName?></td>
 						                            <td><?php checkResultIcon($vk->firstName)?></td>
 						                        </tr>
@@ -191,6 +221,60 @@ foreach ($colorsName as $key => $value) {
                                                    <td id="time" class="rightable ">Аудиозаписи</td>
                                                    <td id="discr" class="rightable "><?=$vk->canSeeAudio?></td>
                                                    <td><?php checkResultIcon($vk->canSeeAudio)?></td>
+=======
+						                            <td id="discr" class="centrtable"><?=$firstName.' '.$lastName?></td>
+						                            <td><?php checkResultIcon($firstName)?></td>
+						                        </tr>
+						                       <tr class="color">
+						                           <td id="time">Пол</td>
+						                           <td id="discr" class="centrtable"><?=$sex?></td>
+						                           <td><?php checkResultIcon($sex)?></td>
+						                        </tr>
+						                       <tr> 
+						                            <td id="time">Дата рожденья</td>
+						                            <td id="discr" class="centrtable"><?=$bdate?></td>
+						                            <td><?php checkResultIcon($bdate)?></td>
+						                        </tr>
+						                       <tr>
+						                           <td id="time" class="rightable ">Локация</td>
+						                           <td id="discr" class="rightable "><?=$city?></td>
+						                           <td><?php checkResultIcon($city)?></td>
+						                        </tr>
+						                        <!-- <tr>
+						                           <td id="time" class="rightable ">Телефон</td>
+						                           <td id="discr" class="rightable "><?=$phoneNumber?></td>
+						                           <td><?php checkResultIcon($phoneNumber)?></td>
+						                        </tr> -->
+						                        <tr>
+						                           <td id="time" class="rightable ">Друзья</td>
+						                           <td id="discr" class="rightable "><?=$counterFriends?></td>
+						                           <td><?php checkResultIcon($counterFriends)?></td>
+						                        </tr>
+						                        <tr >
+						                           <td id="time" class="rightable ">Посты</td>
+						                           <td id="discr" class="rightable "><?=$counterPosts?></td>
+						                           <td><?php checkResultIcon($counterPosts)?></td>
+						                        </tr>
+						                        <tr >
+						                           <td id="time" class="rightable ">Фотографии</td>
+						                           <td id="discr" class="rightable "><?=$counterAllPhotos?></td>
+						                           <td><?php checkResultIcon($counterAllPhotos)?></td>
+						                        </tr>
+						                        <tr >
+						                           <td id="time" class="rightable ">Видеозаписи</td>
+						                           <td id="discr" class="rightable "><?=$counterVideos?></td>
+						                           <td><?php checkResultIcon($counterVideos)?></td>
+						                        </tr>
+                                                <tr >
+                                                   <td id="time" class="rightable ">Группы</td>
+                                                   <td id="discr" class="rightable "><?=$counterGroups?></td>
+                                                   <td><?php checkResultIcon($counterGroups)?></td>
+                                                </tr>
+                                                <tr >
+                                                   <td id="time" class="rightable ">Аудиозаписи</td>
+                                                   <td id="discr" class="rightable "><?=$canSeeAudio?></td>
+                                                   <td><?php checkResultIcon($canSeeAudio)?></td>
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
                                                 </tr>
 						                    </table>
 						                </div>
@@ -203,6 +287,7 @@ foreach ($colorsName as $key => $value) {
 						                         </tr>
 						                        <tr data-toggle="tooltip" data-placement="top" title="Темперамент — это определенный набор свойств психики индивида, которые имеют в качестве физиологического базиса тип высшей нервной деятельности. Согласно статистике, темперамент имеет прямую зависимость от количества фотографий, записей, сохранённых видеозаписей и количества друзей, начиная от самого замкнутого флегматика и заканчивая импульсивным экстравертным холериком."> 
 						                            <td id="time">Тип темперамента:</td>
+<<<<<<< HEAD
 						                            <td id="discr" class="centrtable"><?=$vk->outStringTemper?></td>
 						                        </tr>
 						                       <tr class="color" data-toggle="tooltip" data-placement="top" title="Самооценка человека предполагает оценку им себя в целом и отдельные составляющие своей личности, а именно свои поступки и действия, свои качества и отношения, свою направленность и убеждении и многое другое. Её уровень зависит от как от количества записей на стене, так и от количества загруженных фотографий.">
@@ -212,6 +297,17 @@ foreach ($colorsName as $key => $value) {
 						                       <tr data-toggle="tooltip" data-placement="top" title="Уровень интеллекта относительно уровня среднестатистического человека. Как правило, высокоинтеллектуальный человек более тщательно подходит к отбору полезной информации, а пользователь с низким интеллектом имеет у себя на странице огромное количество зачастую ненужной информации."> 
 						                            <td id="time">Интеллект:</td>
 						                            <td id="discr" class="centrtable"><?=$vk->outStringIntel?></td>
+=======
+						                            <td id="discr" class="centrtable"><?=$outStringTemper?></td>
+						                        </tr>
+						                       <tr class="color" data-toggle="tooltip" data-placement="top" title="Самооценка человека предполагает оценку им себя в целом и отдельные составляющие своей личности, а именно свои поступки и действия, свои качества и отношения, свою направленность и убеждении и многое другое. Её уровень зависит от как от количества записей на стене, так и от количества загруженных фотографий.">
+						                           <td id="time">Самооценка:</td>
+						                           <td id="discr" class="centrtable"><?=$outStringSelf?></td>
+						                        </tr>
+						                       <tr data-toggle="tooltip" data-placement="top" title="Уровень интеллекта относительно уровня среднестатистического человека. Как правило, высокоинтеллектуальный человек более тщательно подходит к отбору полезной информации, а пользователь с низким интеллектом имеет у себя на странице огромное количество зачастую ненужной информации."> 
+						                            <td id="time">Интеллект:</td>
+						                            <td id="discr" class="centrtable"><?=$outStringIntel?></td>
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
 						                        </tr>
 						                       <tr data-toggle="tooltip" data-placement="top" title="<?=$analizeColortext?>">
 						                           <td id="time" class="rightable ">Ваш цвет:</td>
@@ -281,4 +377,7 @@ foreach ($colorsName as $key => $value) {
 	</script>
 </body>
 </html>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 84ace557f3b539fe13b60ee6f43cea53e7e8b871
